@@ -1,8 +1,18 @@
+define(["jquery", "template", "cookie"], function ($, template) {
 
-	NProgress.start();
+	$(function () {
+		if (location.pathname != "/dashboard/login") {
 
-	NProgress.done();
+			//验证是否登录
+			if (!$.cookie("PHPSESSID")) {
+				location.href = "/dashboard/login";
+			}
 
-	$('.navs ul').prev('a').on('click', function () {
-		$(this).next().slideToggle();
-	});
+
+			//显示头像和用户名
+			var userinfo = JSON.parse($.cookie("userinfo"));
+			console.log(userinfo);
+			$("#profile").html(template("userpicTpl", userinfo));
+		}
+	})
+})
